@@ -3,4 +3,5 @@ Authors:
 * John Clement Husain
 * Arthur Elly Lim
 * Elijah-McCauley Liston
-## test
+\
+This is a repository for the Clinic EMR System
