@@ -1,4 +1,4 @@
 # Repository for Clinic EMR System
-Authors:    -*John Clement Husain*
-            -*Arthur Elly Lim*
-            -*Elijah-McCauley Liston*
+Authors:\t*John Clement Husain*\
+\t*Arthur Elly Lim*\
+\t*Elijah-McCauley Liston*\
