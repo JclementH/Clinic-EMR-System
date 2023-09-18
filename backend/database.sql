@@ -14,7 +14,7 @@ CREATE TABLE patientinformation(
     patientweight DECIMAL,
     numberTelephone VARCHAR(10),
     numberMobile VARCHAR(10),
-    email CITEXT(255),
+    email CITEXT,
     occupation VARCHAR(255)
 );
 
@@ -22,7 +22,7 @@ CREATE TABLE emergencyperson(
     ID SERIAL PRIMARY KEY,
     CONSTRAINT patientID
         FOREIGN KEY(ID) 
-        REFERENCES patientinformation(ID),
+            REFERENCES patientinformation(ID),
     nameLast VARCHAR(40),
     nameFirst VARCHAR(40),
     numberTelephone VARCHAR(10),
@@ -31,6 +31,9 @@ CREATE TABLE emergencyperson(
 
 CREATE TABLE parent(
     ID SERIAL PRIMARY KEY,
+    CONSTRAINT patientID
+        FOREIGN KEY(ID) 
+            REFERENCES patientinformation(ID),
     nameLast VARCHAR(40),
     nameFirst VARCHAR(40),
     numberTelephone VARCHAR(10),
