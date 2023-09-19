@@ -133,7 +133,7 @@ const reducer = (state, action) => {
       state.modalTeeth = 0;
       return;
     default:
-      throw new Error("unexpected action type" + action.type);
+      throw new Error("unexpected action type" + action.type + ' At TeethImage');
   }
 };
 
@@ -190,11 +190,11 @@ function TeethImage() {
 
   return (
     <div>
-      <Box className={"bg-white w-[12%] h-[35%] absolute"}>
+      <Box className={"bg-white w-[14rem] h-[20rem] absolute"}>
         <p className="text-center"> Legend</p>
       </Box>
 
-      <div className="pl-[16%]">
+      <div className="pl-[18%]">
         {teethLayout(initialTeethState1, "65%", false)}
         {teethLayout(initialTeethState2, "200%", true)}
         {teethLayout(initialTeethState3, "200%", true)}

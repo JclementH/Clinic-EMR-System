@@ -78,7 +78,7 @@ function RecordsPage() {
           </Button>
         </ButtonGroup>
       </ThemeProvider>
-      <Box className={"bg-gray-200 p-10 border-solid border-2 border-black w-[125%] h-[140%]"}>
+      <Box className={"bg-gray-200 p-10 border-solid border-2 border-black w-[110rem] h-[36rem]"}>
         {state.selectRecords === IMAGE_SELECT ? <TeethImage /> : ""}
         {state.selectRecords === FORMS_SELECT ? "Forms" : ""}
         {state.selectRecords === PAYMENT_SELECT ? "Payment" : ""}
