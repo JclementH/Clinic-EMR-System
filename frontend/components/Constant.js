@@ -1,0 +1,10 @@
+export const TEETH_GRAY = "#bfbfbf"
+export const TEETH_RED = "#f9425a";
+export const TEETH_GREEN = "#42f548";
+export const TEETH_BLUE = "#4287f5";
+export const TEETH_YELLOW = "#f5bc42";
+export const CHANGE_TOP = "change-top";
+export const CHANGE_BOT = "change-bot";
+export const CHANGE_LEFT = "change-left";
+export const CHANGE_RIGHT = "change-right";
+export const CHANGE_MID = "change-mid";
