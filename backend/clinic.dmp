@@ -1,0 +1,1903 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 16.0
+-- Dumped by pg_dump version 16.0
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: appointment; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.appointment (
+    id integer NOT NULL,
+    appointmentdate date,
+    timestart timestamp without time zone,
+    timeend timestamp without time zone
+);
+
+
+ALTER TABLE public.appointment OWNER TO postgres;
+
+--
+-- Name: appointment_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.appointment_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.appointment_id_seq OWNER TO postgres;
+
+--
+-- Name: appointment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.appointment_id_seq OWNED BY public.appointment.id;
+
+
+--
+-- Name: appointmenthistory; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.appointmenthistory (
+    id integer NOT NULL,
+    status bit(1)
+);
+
+
+ALTER TABLE public.appointmenthistory OWNER TO postgres;
+
+--
+-- Name: appointmenthistory_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.appointmenthistory_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.appointmenthistory_id_seq OWNER TO postgres;
+
+--
+-- Name: appointmenthistory_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.appointmenthistory_id_seq OWNED BY public.appointmenthistory.id;
+
+
+--
+-- Name: appointmentprocedure; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.appointmentprocedure (
+    id integer NOT NULL,
+    notes text
+);
+
+
+ALTER TABLE public.appointmentprocedure OWNER TO postgres;
+
+--
+-- Name: appointmentprocedure_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.appointmentprocedure_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.appointmentprocedure_id_seq OWNER TO postgres;
+
+--
+-- Name: appointmentprocedure_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.appointmentprocedure_id_seq OWNED BY public.appointmentprocedure.id;
+
+
+--
+-- Name: assistantinformation; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.assistantinformation (
+    id integer NOT NULL,
+    namelast character varying(40),
+    namefirst character varying(40),
+    namemiddle character varying(40),
+    email character varying(255),
+    numbermobile character varying(10)
+);
+
+
+ALTER TABLE public.assistantinformation OWNER TO postgres;
+
+--
+-- Name: assistantinformation_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.assistantinformation_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.assistantinformation_id_seq OWNER TO postgres;
+
+--
+-- Name: assistantinformation_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.assistantinformation_id_seq OWNED BY public.assistantinformation.id;
+
+
+--
+-- Name: assistantlogentry; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.assistantlogentry (
+    id integer NOT NULL
+);
+
+
+ALTER TABLE public.assistantlogentry OWNER TO postgres;
+
+--
+-- Name: assistantlogentry_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.assistantlogentry_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.assistantlogentry_id_seq OWNER TO postgres;
+
+--
+-- Name: assistantlogentry_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.assistantlogentry_id_seq OWNED BY public.assistantlogentry.id;
+
+
+--
+-- Name: crowntype; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.crowntype (
+    id integer NOT NULL,
+    name character varying(40),
+    description text
+);
+
+
+ALTER TABLE public.crowntype OWNER TO postgres;
+
+--
+-- Name: crowntype_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.crowntype_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.crowntype_id_seq OWNER TO postgres;
+
+--
+-- Name: crowntype_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.crowntype_id_seq OWNED BY public.crowntype.id;
+
+
+--
+-- Name: dentalchart; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.dentalchart (
+    id integer NOT NULL,
+    date date,
+    note text
+);
+
+
+ALTER TABLE public.dentalchart OWNER TO postgres;
+
+--
+-- Name: dentalchart_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.dentalchart_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.dentalchart_id_seq OWNER TO postgres;
+
+--
+-- Name: dentalchart_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.dentalchart_id_seq OWNED BY public.dentalchart.id;
+
+
+--
+-- Name: dentalcharttooth; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.dentalcharttooth (
+    id integer NOT NULL,
+    number integer,
+    status bit(5),
+    caries bit(5),
+    composite bit(5),
+    amalgam bit(5),
+    reccurentcaries bit(5),
+    lay bit(5)
+);
+
+
+ALTER TABLE public.dentalcharttooth OWNER TO postgres;
+
+--
+-- Name: dentalcharttooth_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.dentalcharttooth_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.dentalcharttooth_id_seq OWNER TO postgres;
+
+--
+-- Name: dentalcharttooth_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.dentalcharttooth_id_seq OWNED BY public.dentalcharttooth.id;
+
+
+--
+-- Name: dentistinformation; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.dentistinformation (
+    id integer NOT NULL,
+    namelast character varying(40),
+    namefirst character varying(40),
+    namemiddle character varying(40),
+    email character varying(255),
+    numbertelephone character varying(10),
+    numbermobile character varying(10),
+    numberprc character varying(7),
+    occupation character varying(255)
+);
+
+
+ALTER TABLE public.dentistinformation OWNER TO postgres;
+
+--
+-- Name: dentistinformation_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.dentistinformation_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.dentistinformation_id_seq OWNER TO postgres;
+
+--
+-- Name: dentistinformation_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.dentistinformation_id_seq OWNED BY public.dentistinformation.id;
+
+
+--
+-- Name: dentistlogentry; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.dentistlogentry (
+    id integer NOT NULL
+);
+
+
+ALTER TABLE public.dentistlogentry OWNER TO postgres;
+
+--
+-- Name: dentistlogentry_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.dentistlogentry_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.dentistlogentry_id_seq OWNER TO postgres;
+
+--
+-- Name: dentistlogentry_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.dentistlogentry_id_seq OWNED BY public.dentistlogentry.id;
+
+
+--
+-- Name: directory; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.directory (
+    id integer NOT NULL
+);
+
+
+ALTER TABLE public.directory OWNER TO postgres;
+
+--
+-- Name: directory_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.directory_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.directory_id_seq OWNER TO postgres;
+
+--
+-- Name: directory_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.directory_id_seq OWNED BY public.directory.id;
+
+
+--
+-- Name: emergencyperson; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.emergencyperson (
+    id integer NOT NULL,
+    namelast character varying(40),
+    namefirst character varying(40),
+    numbertelephone character varying(10),
+    numbermobile character varying(10)
+);
+
+
+ALTER TABLE public.emergencyperson OWNER TO postgres;
+
+--
+-- Name: emergencyperson_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.emergencyperson_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.emergencyperson_id_seq OWNER TO postgres;
+
+--
+-- Name: emergencyperson_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.emergencyperson_id_seq OWNED BY public.emergencyperson.id;
+
+
+--
+-- Name: form; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.form (
+    id integer NOT NULL,
+    date date,
+    filepath character varying(255)
+);
+
+
+ALTER TABLE public.form OWNER TO postgres;
+
+--
+-- Name: form_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.form_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.form_id_seq OWNER TO postgres;
+
+--
+-- Name: form_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.form_id_seq OWNED BY public.form.id;
+
+
+--
+-- Name: formtype; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.formtype (
+    id integer NOT NULL,
+    name name,
+    description text
+);
+
+
+ALTER TABLE public.formtype OWNER TO postgres;
+
+--
+-- Name: formtype_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.formtype_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.formtype_id_seq OWNER TO postgres;
+
+--
+-- Name: formtype_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.formtype_id_seq OWNED BY public.formtype.id;
+
+
+--
+-- Name: image; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.image (
+    id integer NOT NULL,
+    creationdate date,
+    filepath character varying(255)
+);
+
+
+ALTER TABLE public.image OWNER TO postgres;
+
+--
+-- Name: image_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.image_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.image_id_seq OWNER TO postgres;
+
+--
+-- Name: image_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.image_id_seq OWNED BY public.image.id;
+
+
+--
+-- Name: imagechronology; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.imagechronology (
+    id integer NOT NULL,
+    date date,
+    notes text
+);
+
+
+ALTER TABLE public.imagechronology OWNER TO postgres;
+
+--
+-- Name: imagechronology_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.imagechronology_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.imagechronology_id_seq OWNER TO postgres;
+
+--
+-- Name: imagechronology_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.imagechronology_id_seq OWNED BY public.imagechronology.id;
+
+
+--
+-- Name: imagetype; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.imagetype (
+    id integer NOT NULL,
+    name character varying(40),
+    description text
+);
+
+
+ALTER TABLE public.imagetype OWNER TO postgres;
+
+--
+-- Name: imagetype_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.imagetype_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.imagetype_id_seq OWNER TO postgres;
+
+--
+-- Name: imagetype_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.imagetype_id_seq OWNED BY public.imagetype.id;
+
+
+--
+-- Name: invoice; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.invoice (
+    id integer NOT NULL,
+    feesproceduretotal numeric,
+    feeslaboratory numeric,
+    discount numeric,
+    subtotal numeric,
+    feesdoctor numeric,
+    sharedoctor numeric,
+    shareclinic numeric,
+    notes text
+);
+
+
+ALTER TABLE public.invoice OWNER TO postgres;
+
+--
+-- Name: invoice_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.invoice_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.invoice_id_seq OWNER TO postgres;
+
+--
+-- Name: invoice_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.invoice_id_seq OWNED BY public.invoice.id;
+
+
+--
+-- Name: laytype; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.laytype (
+    id integer NOT NULL,
+    name character varying(40),
+    description text
+);
+
+
+ALTER TABLE public.laytype OWNER TO postgres;
+
+--
+-- Name: laytype_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.laytype_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.laytype_id_seq OWNER TO postgres;
+
+--
+-- Name: laytype_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.laytype_id_seq OWNED BY public.laytype.id;
+
+
+--
+-- Name: log; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.log (
+    id integer NOT NULL,
+    timein timestamp without time zone,
+    timeout timestamp without time zone
+);
+
+
+ALTER TABLE public.log OWNER TO postgres;
+
+--
+-- Name: log_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.log_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.log_id_seq OWNER TO postgres;
+
+--
+-- Name: log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.log_id_seq OWNED BY public.log.id;
+
+
+--
+-- Name: medicalhistory; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.medicalhistory (
+    id integer NOT NULL,
+    date date,
+    filepath character varying(255)
+);
+
+
+ALTER TABLE public.medicalhistory OWNER TO postgres;
+
+--
+-- Name: medicalhistory_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.medicalhistory_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.medicalhistory_id_seq OWNER TO postgres;
+
+--
+-- Name: medicalhistory_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.medicalhistory_id_seq OWNED BY public.medicalhistory.id;
+
+
+--
+-- Name: medication; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.medication (
+    id integer NOT NULL,
+    quantity integer,
+    signetur text
+);
+
+
+ALTER TABLE public.medication OWNER TO postgres;
+
+--
+-- Name: medication_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.medication_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.medication_id_seq OWNER TO postgres;
+
+--
+-- Name: medication_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.medication_id_seq OWNED BY public.medication.id;
+
+
+--
+-- Name: medicine; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.medicine (
+    id integer NOT NULL,
+    name name,
+    description text,
+    dosage character varying(20),
+    dosagechild character varying(20)
+);
+
+
+ALTER TABLE public.medicine OWNER TO postgres;
+
+--
+-- Name: medicine_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.medicine_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.medicine_id_seq OWNER TO postgres;
+
+--
+-- Name: medicine_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.medicine_id_seq OWNED BY public.medicine.id;
+
+
+--
+-- Name: parent; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.parent (
+    id integer NOT NULL,
+    namelast character varying(40),
+    namefirst character varying(40),
+    numbertelephone character varying(10),
+    numbermobile character varying(10)
+);
+
+
+ALTER TABLE public.parent OWNER TO postgres;
+
+--
+-- Name: parent_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.parent_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.parent_id_seq OWNER TO postgres;
+
+--
+-- Name: parent_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.parent_id_seq OWNED BY public.parent.id;
+
+
+--
+-- Name: patientinformation; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.patientinformation (
+    id integer NOT NULL,
+    namelast character varying(40),
+    namefirst character varying(40),
+    namemiddle character varying(40),
+    dateofentry date,
+    dateofbirth date,
+    civilstatus character varying(40),
+    patientaddress character varying(255),
+    patientgender character varying(40),
+    patientheight numeric,
+    patientweight numeric,
+    numbertelephone character varying(10),
+    numbermobile character varying(10),
+    email character varying(255),
+    occupation character varying(255)
+);
+
+
+ALTER TABLE public.patientinformation OWNER TO postgres;
+
+--
+-- Name: patientinformation_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.patientinformation_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.patientinformation_id_seq OWNER TO postgres;
+
+--
+-- Name: patientinformation_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.patientinformation_id_seq OWNED BY public.patientinformation.id;
+
+
+--
+-- Name: prescription; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.prescription (
+    id integer NOT NULL,
+    date date
+);
+
+
+ALTER TABLE public.prescription OWNER TO postgres;
+
+--
+-- Name: prescription_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.prescription_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.prescription_id_seq OWNER TO postgres;
+
+--
+-- Name: prescription_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.prescription_id_seq OWNED BY public.prescription.id;
+
+
+--
+-- Name: prescriptionhistory; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.prescriptionhistory (
+    id integer NOT NULL,
+    date date
+);
+
+
+ALTER TABLE public.prescriptionhistory OWNER TO postgres;
+
+--
+-- Name: prescriptionhistory_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.prescriptionhistory_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.prescriptionhistory_id_seq OWNER TO postgres;
+
+--
+-- Name: prescriptionhistory_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.prescriptionhistory_id_seq OWNED BY public.prescriptionhistory.id;
+
+
+--
+-- Name: procedure; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.procedure (
+    id integer NOT NULL,
+    name character varying(40),
+    description text,
+    basecost numeric
+);
+
+
+ALTER TABLE public.procedure OWNER TO postgres;
+
+--
+-- Name: procedure_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.procedure_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.procedure_id_seq OWNER TO postgres;
+
+--
+-- Name: procedure_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.procedure_id_seq OWNED BY public.procedure.id;
+
+
+--
+-- Name: thirdpartyinformation; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.thirdpartyinformation (
+    id integer NOT NULL,
+    thidpartyname character varying(255),
+    affiliation character varying(255),
+    email character varying(255),
+    numbertelephone character varying(10),
+    numbermobile character varying(10)
+);
+
+
+ALTER TABLE public.thirdpartyinformation OWNER TO postgres;
+
+--
+-- Name: thirdpartyinformation_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.thirdpartyinformation_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.thirdpartyinformation_id_seq OWNER TO postgres;
+
+--
+-- Name: thirdpartyinformation_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.thirdpartyinformation_id_seq OWNED BY public.thirdpartyinformation.id;
+
+
+--
+-- Name: thirdpartylogentry; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.thirdpartylogentry (
+    id integer NOT NULL
+);
+
+
+ALTER TABLE public.thirdpartylogentry OWNER TO postgres;
+
+--
+-- Name: thirdpartylogentry_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.thirdpartylogentry_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.thirdpartylogentry_id_seq OWNER TO postgres;
+
+--
+-- Name: thirdpartylogentry_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.thirdpartylogentry_id_seq OWNED BY public.thirdpartylogentry.id;
+
+
+--
+-- Name: toothtype; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.toothtype (
+    id integer NOT NULL,
+    name character varying(40),
+    description text
+);
+
+
+ALTER TABLE public.toothtype OWNER TO postgres;
+
+--
+-- Name: toothtype_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.toothtype_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.toothtype_id_seq OWNER TO postgres;
+
+--
+-- Name: toothtype_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.toothtype_id_seq OWNED BY public.toothtype.id;
+
+
+--
+-- Name: appointment id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.appointment ALTER COLUMN id SET DEFAULT nextval('public.appointment_id_seq'::regclass);
+
+
+--
+-- Name: appointmenthistory id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.appointmenthistory ALTER COLUMN id SET DEFAULT nextval('public.appointmenthistory_id_seq'::regclass);
+
+
+--
+-- Name: appointmentprocedure id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.appointmentprocedure ALTER COLUMN id SET DEFAULT nextval('public.appointmentprocedure_id_seq'::regclass);
+
+
+--
+-- Name: assistantinformation id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.assistantinformation ALTER COLUMN id SET DEFAULT nextval('public.assistantinformation_id_seq'::regclass);
+
+
+--
+-- Name: assistantlogentry id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.assistantlogentry ALTER COLUMN id SET DEFAULT nextval('public.assistantlogentry_id_seq'::regclass);
+
+
+--
+-- Name: crowntype id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.crowntype ALTER COLUMN id SET DEFAULT nextval('public.crowntype_id_seq'::regclass);
+
+
+--
+-- Name: dentalchart id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dentalchart ALTER COLUMN id SET DEFAULT nextval('public.dentalchart_id_seq'::regclass);
+
+
+--
+-- Name: dentalcharttooth id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dentalcharttooth ALTER COLUMN id SET DEFAULT nextval('public.dentalcharttooth_id_seq'::regclass);
+
+
+--
+-- Name: dentistinformation id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dentistinformation ALTER COLUMN id SET DEFAULT nextval('public.dentistinformation_id_seq'::regclass);
+
+
+--
+-- Name: dentistlogentry id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dentistlogentry ALTER COLUMN id SET DEFAULT nextval('public.dentistlogentry_id_seq'::regclass);
+
+
+--
+-- Name: directory id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.directory ALTER COLUMN id SET DEFAULT nextval('public.directory_id_seq'::regclass);
+
+
+--
+-- Name: emergencyperson id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.emergencyperson ALTER COLUMN id SET DEFAULT nextval('public.emergencyperson_id_seq'::regclass);
+
+
+--
+-- Name: form id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.form ALTER COLUMN id SET DEFAULT nextval('public.form_id_seq'::regclass);
+
+
+--
+-- Name: formtype id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.formtype ALTER COLUMN id SET DEFAULT nextval('public.formtype_id_seq'::regclass);
+
+
+--
+-- Name: image id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.image ALTER COLUMN id SET DEFAULT nextval('public.image_id_seq'::regclass);
+
+
+--
+-- Name: imagechronology id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.imagechronology ALTER COLUMN id SET DEFAULT nextval('public.imagechronology_id_seq'::regclass);
+
+
+--
+-- Name: imagetype id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.imagetype ALTER COLUMN id SET DEFAULT nextval('public.imagetype_id_seq'::regclass);
+
+
+--
+-- Name: invoice id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.invoice ALTER COLUMN id SET DEFAULT nextval('public.invoice_id_seq'::regclass);
+
+
+--
+-- Name: laytype id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.laytype ALTER COLUMN id SET DEFAULT nextval('public.laytype_id_seq'::regclass);
+
+
+--
+-- Name: log id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.log ALTER COLUMN id SET DEFAULT nextval('public.log_id_seq'::regclass);
+
+
+--
+-- Name: medicalhistory id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.medicalhistory ALTER COLUMN id SET DEFAULT nextval('public.medicalhistory_id_seq'::regclass);
+
+
+--
+-- Name: medication id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.medication ALTER COLUMN id SET DEFAULT nextval('public.medication_id_seq'::regclass);
+
+
+--
+-- Name: medicine id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.medicine ALTER COLUMN id SET DEFAULT nextval('public.medicine_id_seq'::regclass);
+
+
+--
+-- Name: parent id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.parent ALTER COLUMN id SET DEFAULT nextval('public.parent_id_seq'::regclass);
+
+
+--
+-- Name: patientinformation id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.patientinformation ALTER COLUMN id SET DEFAULT nextval('public.patientinformation_id_seq'::regclass);
+
+
+--
+-- Name: prescription id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.prescription ALTER COLUMN id SET DEFAULT nextval('public.prescription_id_seq'::regclass);
+
+
+--
+-- Name: prescriptionhistory id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.prescriptionhistory ALTER COLUMN id SET DEFAULT nextval('public.prescriptionhistory_id_seq'::regclass);
+
+
+--
+-- Name: procedure id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.procedure ALTER COLUMN id SET DEFAULT nextval('public.procedure_id_seq'::regclass);
+
+
+--
+-- Name: thirdpartyinformation id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.thirdpartyinformation ALTER COLUMN id SET DEFAULT nextval('public.thirdpartyinformation_id_seq'::regclass);
+
+
+--
+-- Name: thirdpartylogentry id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.thirdpartylogentry ALTER COLUMN id SET DEFAULT nextval('public.thirdpartylogentry_id_seq'::regclass);
+
+
+--
+-- Name: toothtype id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.toothtype ALTER COLUMN id SET DEFAULT nextval('public.toothtype_id_seq'::regclass);
+
+
+--
+-- Name: appointment appointment_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.appointment
+    ADD CONSTRAINT appointment_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: appointmenthistory appointmenthistory_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.appointmenthistory
+    ADD CONSTRAINT appointmenthistory_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: appointmentprocedure appointmentprocedure_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.appointmentprocedure
+    ADD CONSTRAINT appointmentprocedure_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: assistantinformation assistantinformation_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.assistantinformation
+    ADD CONSTRAINT assistantinformation_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: assistantlogentry assistantlogentry_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.assistantlogentry
+    ADD CONSTRAINT assistantlogentry_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: crowntype crowntype_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.crowntype
+    ADD CONSTRAINT crowntype_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: dentalchart dentalchart_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dentalchart
+    ADD CONSTRAINT dentalchart_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: dentalcharttooth dentalcharttooth_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dentalcharttooth
+    ADD CONSTRAINT dentalcharttooth_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: dentistinformation dentistinformation_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dentistinformation
+    ADD CONSTRAINT dentistinformation_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: dentistlogentry dentistlogentry_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dentistlogentry
+    ADD CONSTRAINT dentistlogentry_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: directory directory_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.directory
+    ADD CONSTRAINT directory_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: emergencyperson emergencyperson_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.emergencyperson
+    ADD CONSTRAINT emergencyperson_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: form form_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.form
+    ADD CONSTRAINT form_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: formtype formtype_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.formtype
+    ADD CONSTRAINT formtype_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: image image_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.image
+    ADD CONSTRAINT image_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: imagechronology imagechronology_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.imagechronology
+    ADD CONSTRAINT imagechronology_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: imagetype imagetype_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.imagetype
+    ADD CONSTRAINT imagetype_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: invoice invoice_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.invoice
+    ADD CONSTRAINT invoice_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: laytype laytype_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.laytype
+    ADD CONSTRAINT laytype_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: log log_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.log
+    ADD CONSTRAINT log_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: medicalhistory medicalhistory_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.medicalhistory
+    ADD CONSTRAINT medicalhistory_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: medication medication_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.medication
+    ADD CONSTRAINT medication_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: medicine medicine_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.medicine
+    ADD CONSTRAINT medicine_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: parent parent_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.parent
+    ADD CONSTRAINT parent_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: patientinformation patientinformation_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.patientinformation
+    ADD CONSTRAINT patientinformation_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: prescription prescription_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.prescription
+    ADD CONSTRAINT prescription_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: prescriptionhistory prescriptionhistory_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.prescriptionhistory
+    ADD CONSTRAINT prescriptionhistory_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: procedure procedure_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.procedure
+    ADD CONSTRAINT procedure_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: thirdpartyinformation thirdpartyinformation_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.thirdpartyinformation
+    ADD CONSTRAINT thirdpartyinformation_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: thirdpartylogentry thirdpartylogentry_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.thirdpartylogentry
+    ADD CONSTRAINT thirdpartylogentry_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: toothtype toothtype_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.toothtype
+    ADD CONSTRAINT toothtype_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: appointmentprocedure appointmentid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.appointmentprocedure
+    ADD CONSTRAINT appointmentid FOREIGN KEY (id) REFERENCES public.appointment(id);
+
+
+--
+-- Name: appointmenthistory appointmentid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.appointmenthistory
+    ADD CONSTRAINT appointmentid FOREIGN KEY (id) REFERENCES public.appointment(id);
+
+
+--
+-- Name: assistantlogentry assistantid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.assistantlogentry
+    ADD CONSTRAINT assistantid FOREIGN KEY (id) REFERENCES public.assistantinformation(id);
+
+
+--
+-- Name: dentalcharttooth crowntypeid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dentalcharttooth
+    ADD CONSTRAINT crowntypeid FOREIGN KEY (id) REFERENCES public.crowntype(id);
+
+
+--
+-- Name: dentalcharttooth dentalchartid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dentalcharttooth
+    ADD CONSTRAINT dentalchartid FOREIGN KEY (id) REFERENCES public.dentalchart(id);
+
+
+--
+-- Name: dentistlogentry dentistid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dentistlogentry
+    ADD CONSTRAINT dentistid FOREIGN KEY (id) REFERENCES public.dentistinformation(id);
+
+
+--
+-- Name: appointment dentistid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.appointment
+    ADD CONSTRAINT dentistid FOREIGN KEY (id) REFERENCES public.dentistinformation(id);
+
+
+--
+-- Name: invoice dentistid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.invoice
+    ADD CONSTRAINT dentistid FOREIGN KEY (id) REFERENCES public.dentistinformation(id);
+
+
+--
+-- Name: dentalchart dentistid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dentalchart
+    ADD CONSTRAINT dentistid FOREIGN KEY (id) REFERENCES public.dentistinformation(id);
+
+
+--
+-- Name: form dentistid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.form
+    ADD CONSTRAINT dentistid FOREIGN KEY (id) REFERENCES public.dentistinformation(id);
+
+
+--
+-- Name: prescription dentistid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.prescription
+    ADD CONSTRAINT dentistid FOREIGN KEY (id) REFERENCES public.dentistinformation(id);
+
+
+--
+-- Name: form formtypeid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.form
+    ADD CONSTRAINT formtypeid FOREIGN KEY (id) REFERENCES public.formtype(id);
+
+
+--
+-- Name: imagechronology imageid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.imagechronology
+    ADD CONSTRAINT imageid FOREIGN KEY (id) REFERENCES public.image(id);
+
+
+--
+-- Name: image imagetypeid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.image
+    ADD CONSTRAINT imagetypeid FOREIGN KEY (id) REFERENCES public.imagetype(id);
+
+
+--
+-- Name: dentalcharttooth laytypeid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dentalcharttooth
+    ADD CONSTRAINT laytypeid FOREIGN KEY (id) REFERENCES public.laytype(id);
+
+
+--
+-- Name: dentistlogentry logid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dentistlogentry
+    ADD CONSTRAINT logid FOREIGN KEY (id) REFERENCES public.log(id);
+
+
+--
+-- Name: assistantlogentry logid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.assistantlogentry
+    ADD CONSTRAINT logid FOREIGN KEY (id) REFERENCES public.log(id);
+
+
+--
+-- Name: thirdpartylogentry logid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.thirdpartylogentry
+    ADD CONSTRAINT logid FOREIGN KEY (id) REFERENCES public.log(id);
+
+
+--
+-- Name: medication medicineid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.medication
+    ADD CONSTRAINT medicineid FOREIGN KEY (id) REFERENCES public.medicine(id);
+
+
+--
+-- Name: emergencyperson patientid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.emergencyperson
+    ADD CONSTRAINT patientid FOREIGN KEY (id) REFERENCES public.patientinformation(id);
+
+
+--
+-- Name: parent patientid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.parent
+    ADD CONSTRAINT patientid FOREIGN KEY (id) REFERENCES public.patientinformation(id);
+
+
+--
+-- Name: appointment patientid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.appointment
+    ADD CONSTRAINT patientid FOREIGN KEY (id) REFERENCES public.patientinformation(id);
+
+
+--
+-- Name: appointmenthistory patientid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.appointmenthistory
+    ADD CONSTRAINT patientid FOREIGN KEY (id) REFERENCES public.patientinformation(id);
+
+
+--
+-- Name: invoice patientid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.invoice
+    ADD CONSTRAINT patientid FOREIGN KEY (id) REFERENCES public.patientinformation(id);
+
+
+--
+-- Name: image patientid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.image
+    ADD CONSTRAINT patientid FOREIGN KEY (id) REFERENCES public.patientinformation(id);
+
+
+--
+-- Name: imagechronology patientid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.imagechronology
+    ADD CONSTRAINT patientid FOREIGN KEY (id) REFERENCES public.patientinformation(id);
+
+
+--
+-- Name: dentalchart patientid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dentalchart
+    ADD CONSTRAINT patientid FOREIGN KEY (id) REFERENCES public.patientinformation(id);
+
+
+--
+-- Name: medicalhistory patientid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.medicalhistory
+    ADD CONSTRAINT patientid FOREIGN KEY (id) REFERENCES public.patientinformation(id);
+
+
+--
+-- Name: form patientid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.form
+    ADD CONSTRAINT patientid FOREIGN KEY (id) REFERENCES public.patientinformation(id);
+
+
+--
+-- Name: prescription patientid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.prescription
+    ADD CONSTRAINT patientid FOREIGN KEY (id) REFERENCES public.patientinformation(id);
+
+
+--
+-- Name: prescriptionhistory patientid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.prescriptionhistory
+    ADD CONSTRAINT patientid FOREIGN KEY (id) REFERENCES public.patientinformation(id);
+
+
+--
+-- Name: medication prescriptionid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.medication
+    ADD CONSTRAINT prescriptionid FOREIGN KEY (id) REFERENCES public.prescription(id);
+
+
+--
+-- Name: prescriptionhistory prescriptionid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.prescriptionhistory
+    ADD CONSTRAINT prescriptionid FOREIGN KEY (id) REFERENCES public.prescription(id);
+
+
+--
+-- Name: appointmentprocedure procedureid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.appointmentprocedure
+    ADD CONSTRAINT procedureid FOREIGN KEY (id) REFERENCES public.procedure(id);
+
+
+--
+-- Name: directory thirdpartyid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.directory
+    ADD CONSTRAINT thirdpartyid FOREIGN KEY (id) REFERENCES public.thirdpartyinformation(id);
+
+
+--
+-- Name: thirdpartylogentry thirdpartyid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.thirdpartylogentry
+    ADD CONSTRAINT thirdpartyid FOREIGN KEY (id) REFERENCES public.thirdpartyinformation(id);
+
+
+--
+-- Name: dentalcharttooth toothtypeid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dentalcharttooth
+    ADD CONSTRAINT toothtypeid FOREIGN KEY (id) REFERENCES public.toothtype(id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
