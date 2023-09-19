@@ -1,5 +1,7 @@
 CREATE DATABASE clinic;
 
+\c clinic
+
 CREATE TABLE patientinformation(
     ID SERIAL PRIMARY KEY,
     nameLast VARCHAR(40),
@@ -112,8 +114,6 @@ CREATE TABLE thirdpartylogentry(
         FOREIGN KEY(ID) 
             REFERENCES log(ID)
 );
-
-//SUGUD DIRI
 
 CREATE TABLE appointment(
     ID SERIAL PRIMARY KEY,
@@ -290,8 +290,9 @@ CREATE TABLE dentalChartHistory(
             REFERENCES patientinformation(ID),
     CONSTRAINT dentalChartID
         FOREIGN KEY(ID)
-            REFERENCES dentalChart(ID),
-    
+            REFERENCES dentalChart(ID)
+    date DATE,
+    notes TEXT
 );
 
 CREATE TABLE medicalHistory(
