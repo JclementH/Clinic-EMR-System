@@ -5,12 +5,14 @@ import { produce } from "immer";
 import { useReducer } from "react";
 import Box from "@mui/material/Box";
 import theme from "../components/Theme";
-
-const CERTFICATE_SELECT = "certificates";
-const WORK_SELECT = "work";
-const DOSAGE_SELECT = "dosage";
-const RTX_SELECT = "rtx";
-const CONSENT_SELECT = "consent";
+import {
+  CERTFICATE_SELECT,
+  CONSENT_SELECT,
+  DOSAGE_SELECT,
+  RTX_SELECT,
+  WORK_SELECT,
+} from "../components/Constant";
+import { ceil } from "lodash";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -39,24 +41,8 @@ function DocumentPage() {
     selectRecords: CERTFICATE_SELECT,
   });
 
-  const selectCertificates = () => {
-    dispatch({ type: CERTFICATE_SELECT });
-  };
-
-  const selectWork = () => {
-    dispatch({ type: WORK_SELECT });
-  };
-
-  const selectDosage = () => {
-    dispatch({ type: DOSAGE_SELECT });
-  };
-
-  const selectRTX = () => {
-    dispatch({ type: RTX_SELECT });
-  };
-
-  const selectConsent = () => {
-    dispatch({ type: CONSENT_SELECT });
+  function handleSelect(event){
+    dispatch({ type: event });
   };
 
   return (
@@ -67,19 +53,19 @@ function DocumentPage() {
           variant="outlined"
           aria-label="outlined button group"
         >
-          <Button size="large" color="main_grey" onClick={selectCertificates}>
+          <Button size="large" color="main_grey" onClick={() => handleSelect(CERTFICATE_SELECT)}>
             Certificates
           </Button>
-          <Button size="large" color="main_grey" onClick={selectWork}>
+          <Button size="large" color="main_grey" onClick={() => handleSelect(WORK_SELECT)}>
             Work Authorization
           </Button>
-          <Button size="large" color="main_grey" onClick={selectDosage}>
+          <Button size="large" color="main_grey" onClick={() => handleSelect(DOSAGE_SELECT)}>
             Pedo Dosage Calculator
           </Button>
-          <Button size="large" color="main_grey" onClick={selectRTX}>
+          <Button size="large" color="main_grey" onClick={() => handleSelect(RTX_SELECT)}>
             RTX
           </Button>
-          <Button size="large" color="main_grey" onClick={selectConsent}>
+          <Button size="large" color="main_grey" onClick={() => handleSelect(CONSENT_SELECT)}>
             Consent
           </Button>
         </ButtonGroup>
