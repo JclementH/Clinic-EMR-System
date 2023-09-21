@@ -87,6 +87,7 @@ const reducer = (state, action) => {
         state.datePaid = {};
         return;
       }
+      
       rows.push(
         createData(
           state.name,
@@ -116,6 +117,13 @@ const reducer = (state, action) => {
       state.nameError = false;
       state.costError = false;
       state.amountPaidError = false;
+
+      try {
+        
+      } catch (err) {
+        console.error(err.message);
+      }
+
       return;
 
     default:
