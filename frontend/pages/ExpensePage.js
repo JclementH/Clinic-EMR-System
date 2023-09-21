@@ -118,10 +118,17 @@ const reducer = (state, action) => {
       state.costError = false;
       state.amountPaidError = false;
 
-      try {
-        
-      } catch (err) {
-        console.error(err.message);
+      const postExpense = async (e) => {
+        e.preventDefault();
+        const post = await fetch('https://localhost.4000/Expense', {
+          method: 'POST',
+          body: JSON.stringify(createData),
+          headers: {
+            "Content-Type": 'application/json'
+          }
+        });
+        const runPost = await response.json();
+        console.log(runPost);
       }
 
       return;
