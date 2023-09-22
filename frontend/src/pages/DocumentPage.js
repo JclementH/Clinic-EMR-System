@@ -5,6 +5,7 @@ import { produce } from "immer";
 import { useReducer } from "react";
 import Box from "@mui/material/Box";
 import theme from "../components/Theme";
+import DosageCalculator from "../sub-pages/PedoDosageCalc";
 import {
   CERTFICATE_SELECT,
   CONSENT_SELECT,
@@ -12,7 +13,6 @@ import {
   RTX_SELECT,
   WORK_SELECT,
 } from "../components/Constant";
-import { ceil } from "lodash";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -70,10 +70,10 @@ function DocumentPage() {
           </Button>
         </ButtonGroup>
       </ThemeProvider>
-      <Box className={"bg-gray-200 p-10 border-solid border-2 border-black"}>
+      <Box className={"bg-gray-100 p-10 border-solid border-2 border-black"}>
         {state.selectRecords === CERTFICATE_SELECT ? "Certificates" : ""}
         {state.selectRecords === WORK_SELECT ? "Work Authorization" : ""}
-        {state.selectRecords === DOSAGE_SELECT ? "Pedo Dosage Calculator" : ""}
+        {state.selectRecords === DOSAGE_SELECT ? <DosageCalculator /> : ""}
         {state.selectRecords === RTX_SELECT ? "RTX" : ""}
         {state.selectRecords === CONSENT_SELECT ? "Consent" : ""}
       </Box>

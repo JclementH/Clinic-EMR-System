@@ -4,11 +4,13 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import TextField from "@mui/material/TextField";
-import { useReducer } from "react";
+import { MdOutlineDeleteOutline } from "react-icons/md";
+import { useReducer, useState } from "react";
 import Paper from "@mui/material/Paper";
 import { Button, Modal, Box, Checkbox } from "@mui/material";
 import { produce } from "immer";
+import dayjs from "dayjs";
+import ExpenseModal from "../components/ExpenseModal";
 import {
   AMOUNT_PAID,
   CHANGE_DATE,
@@ -17,19 +19,25 @@ import {
   DATE_PAID,
   IS_PAID,
   PUSH_DATA,
+  CLEAR_DATA,
+  EDIT_DATA,
+  SET_PAID,
+  SET_EDIT,
+  SET_ID,
+  DELETE_ID,
 } from "../components/Constant";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import DeleteModal from "../components/DeleteModal";
 
-function createData(name, cost, date, status, amountPaid, datePaid) {
-  return { name, cost, date, status, amountPaid, datePaid };
+function createData(id, name, cost, date, status, amountPaid, datePaid) {
+  return { id, name, cost, date, status, amountPaid, datePaid };
 }
 
-const rows = [];
+let id = 0;
 
 const SET_MODAL_ON = "set-modal-on";
 const SET_MODAL_OFF = "set-modal-off";
+const SET_EXTT_MODAL_ON = "set-exit-modal-on";
+const SET_EXTT_MODAL_OFF = "set-exit-modal-off";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -39,11 +47,14 @@ const reducer = (state, action) => {
 
     case SET_MODAL_OFF:
       state.showModal = false;
-      state.nameError = false;
-      state.costError = false;
-      state.dateError = false;
-      state.amountPaidError = false;
-      state.datePaidError = false;
+      return;
+
+    case SET_EXTT_MODAL_ON:
+      state.showExitModal = true;
+      return;
+
+    case SET_EXTT_MODAL_OFF:
+      state.showExitModal = false;
       return;
 
     case CHANGE_NAME:
@@ -55,7 +66,12 @@ const reducer = (state, action) => {
       return;
 
     case CHANGE_DATE:
+      console.log("date: ", action.payload);
       state.date = action.payload;
+      return;
+
+    case SET_PAID:
+      state.status = action.payload;
       return;
 
     case IS_PAID:
@@ -87,25 +103,24 @@ const reducer = (state, action) => {
         state.datePaid = {};
         return;
       }
-      rows.push(
+      const setID = id + 1;
+      id++;
+
+      state.rows = [
+        ...state.rows,
         createData(
+          setID,
           state.name,
           state.cost,
           state.date,
           state.status,
           state.status === true ? state.cost : state.amountPaid,
           state.datePaid
-        )
-      );
-      console.log( createData(
-        state.name,
-        state.cost,
-        state.date,
-        state.status,
-        state.status === true ? state.cost : state.amountPaid,
-        state.datePaid
-      ))
-      // localStorage.setItem('database', JSON.stringify(rows));
+        ),
+      ];
+      return;
+
+    case CLEAR_DATA:
       state.showModal = false;
       state.name = null;
       state.cost = null;
@@ -118,6 +133,58 @@ const reducer = (state, action) => {
       state.amountPaidError = false;
       return;
 
+    case SET_ID:
+      state.id = action.payload;
+      return;
+
+    case SET_EDIT:
+      state.editMode = !state.editMode;
+      return;
+
+    case EDIT_DATA:
+      const newRows = [...state.rows];
+      const index = newRows.findIndex((item) => item.id === state.id);
+
+      if (index !== -1) {
+        if (state.name === "") {
+          state.nameError = true;
+          return;
+        }
+        if (state.cost === "") {
+          state.costError = true;
+          return;
+        }
+        newRows[index] = createData(
+          state.id,
+          state.name,
+          state.cost,
+          state.date,
+          state.status,
+          state.status === true ? state.cost : state.amountPaid,
+          state.datePaid
+        );
+      }
+
+      state.rows = newRows;
+      state.showModal = false;
+      state.name = null;
+      state.cost = null;
+      state.date = null;
+      state.datePaid = null;
+      state.status = false;
+      state.amountPaid = null;
+      state.nameError = false;
+      state.costError = false;
+      state.amountPaidError = false;
+      state.editMode = !state.editMode;
+      return;
+
+    case DELETE_ID:
+      const newRow = state.rows.filter((expense) => expense.id !== action.payload);
+      state.rows = newRow;
+      state.showExitModal = false;
+      return;
+
     default:
       throw new Error(
         "unexpected action type" + action.type + " At ExpensePage"
@@ -128,31 +195,51 @@ const reducer = (state, action) => {
 function ExpensePage() {
   const [state, dispatch] = useReducer(produce(reducer), {
     showModal: false,
+    showExitModal: false,
+    id: null,
     name: null,
     cost: null,
     date: null,
     status: false,
     amountPaid: null,
+    datePaid: null,
     nameError: false,
     costError: false,
     amountPaidError: false,
+    editMode: false,
+    rows: [],
   });
 
   const handleChange = (event, type) => {
     if (type === COST || type === AMOUNT_PAID) {
       dispatch({ type, payload: event.target.value.replace(/[^0-9]/g, "") });
+    } else if (type === PUSH_DATA) {
+      dispatch({ type, payload: event.target.value });
+      dispatch({ type: CLEAR_DATA });
     } else {
       dispatch({ type, payload: event.target.value });
     }
   };
 
+  function handleEdit(object) {
+    dispatch({ type: SET_EDIT });
+    dispatch({ type: SET_ID, payload: object.id });
+    dispatch({ type: CHANGE_NAME, payload: object.name });
+    dispatch({ type: COST, payload: object.cost });
+    dispatch({ type: CHANGE_DATE, payload: object.date });
+    dispatch({ type: SET_PAID, payload: object.status });
+    dispatch({ type: AMOUNT_PAID, payload: object.amountPaid });
+    dispatch({ type: DATE_PAID, payload: object.datePaid });
+    dispatch({ type: SET_MODAL_ON });
+  }
+
   const handleDateChange = (date) => {
-    console.log(date);
+    // console.log(dayjs(state.date));
+    // console.log("HandleDateChage date: " + date)
     dispatch({ type: CHANGE_DATE, payload: date });
   };
 
   const handleDatePaidChange = (date) => {
-    console.log(date);
     dispatch({ type: DATE_PAID, payload: date });
   };
 
@@ -160,85 +247,42 @@ function ExpensePage() {
     dispatch({ type: SET_MODAL_ON });
   };
 
+  function handleExitModal(object) {
+    dispatch({ type: SET_EXTT_MODAL_ON });
+    dispatch({ type: SET_ID, payload: object.id });
+  }
+
+  const closeExitModal = () => {
+    dispatch({ type: SET_EXTT_MODAL_OFF });
+  };
+
   const closeModal = () => {
     dispatch({ type: SET_MODAL_OFF });
+    if (state.editMode) {
+      dispatch({ type: SET_EDIT });
+    }
+    dispatch({ type: CLEAR_DATA });
   };
 
   return (
     <div>
       <div>
         <Button onClick={setModal}> Add </Button>
-        <Modal open={state.showModal} onClose={closeModal}>
-          <Box
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              backgroundColor: "white",
-              width: "1500px",
-              height: "1000px",
-              padding: "16px",
-              maxWidth: "80vw",
-              maxHeight: "80vh",
-              overflowY: "auto",
-            }}
-          >
-            <div>
-              <TextField
-                required
-                id="name-field"
-                label="Name"
-                helperText="Name"
-                onChange={(event) => handleChange(event, CHANGE_NAME)}
-                value={state.name == null ? "" : state.name}
-                error={state.nameError}
-              />
-              <TextField
-                required
-                id="cost-field"
-                label="Cost"
-                helperText="Cost"
-                onChange={(event) => handleChange(event, COST)}
-                value={state.cost == null ? "" : state.cost}
-                error={state.costError}
-              />
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  label="Amount Due"
-                  value={state.date}
-                  onChange={handleDateChange}
-                  error={state.dateError}
-                />
-                <DatePicker
-                  label="Date Paid"
-                  value={state.datePaid}
-                  onChange={handleDatePaidChange}
-                  disabled={!state.status}
-                  error={state.datePaidError}
-                />
-              </LocalizationProvider>
-              <Checkbox
-                id="is-paid-checkbox"
-                checked={state.status}
-                onChange={(event) => handleChange(event, IS_PAID)}
-              />
-              <TextField
-                id="amount-paid-field"
-                label="Amount Paid"
-                helperText="Amount Paid"
-                onChange={(event) => handleChange(event, AMOUNT_PAID)}
-                value={state.amountPaid == null ? "" : state.amountPaid}
-                disabled={state.status}
-                error={state.amountPaidError}
-              />
-              <Button onClick={(event) => handleChange(event, PUSH_DATA)}>
-                Save
-              </Button>
-              {/* {state.date ? state.date.toISOString().slice(0, 10) : " "} */}
-            </div>
-          </Box>
-        </Modal>
+        <ExpenseModal
+          open={state.showModal}
+          onClose={closeModal}
+          state={state}
+          handleChange={handleChange}
+          handleDateChange={handleDateChange}
+          handleDatePaidChange={handleDatePaidChange}
+          editMode={state.editMode}
+        />
+        <DeleteModal
+          open={state.showExitModal}
+          onClose={closeExitModal}
+          dispatch={dispatch}
+          id={state.id}
+        />
       </div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -250,33 +294,40 @@ function ExpensePage() {
               <TableCell align="right">Payment Status</TableCell>
               <TableCell align="right">Amount Paid</TableCell>
               <TableCell align="right">Date Paid</TableCell>
+              <TableCell align="left"> </TableCell>
+              <TableCell align="left"> </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {state.rows.map((row) => (
               <TableRow
-                key={`key-${row.name}`}
+                key={`key-${row.id}`}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.name == null ? "" : row.name}
+                  {row.name && row.name}
                 </TableCell>
+                <TableCell align="right">{row.cost && row.cost}</TableCell>
                 <TableCell align="right">
-                  {row.cost == null ? "" : row.cost}
-                </TableCell>
-                <TableCell align="right">
-                  {row.date == null ? "" : row.date.toISOString().slice(0, 10)}
+                  {row.date && dayjs(row.date).format("MM/DD/YYYY")}
                 </TableCell>
                 <TableCell align="right">
                   {row.status ? "Paid" : "Unpaid"}
                 </TableCell>
                 <TableCell align="right">
-                  {row.amountPaid == null ? 0 : row.amountPaid}
+                  {row.amountPaid != null ? row.amountPaid : 0}
                 </TableCell>
                 <TableCell align="right">
-                  {row.datePaid == null
-                    ? ""
-                    : row.datePaid.toISOString().slice(0, 10)}
+                  {row.datePaid && dayjs(row.datePaid).format("MM/DD/YYYY")}
+                </TableCell>
+                <TableCell align="left">
+                  <Button onClick={() => handleEdit(row)}> Edit </Button>
+                </TableCell>
+                <TableCell align="left">
+                  <MdOutlineDeleteOutline
+                    className={"hover:cursor-pointer hover:bg-gray-300 w-7 h-7"}
+                    onClick={() => handleExitModal(row)}
+                  />
                 </TableCell>
               </TableRow>
             ))}
