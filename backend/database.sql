@@ -366,3 +366,28 @@ CREATE TABLE prescriptionHistory(
             REFERENCES prescription(ID),
     date DATE
 );
+
+CREATE TABLE expenses(
+    ID SERIAL PRIMARY KEY,
+    cost DECIMAL,
+    dueDate DATE,
+    paidDate DATE,
+    paidAmount DECIMAL
+);
+
+CREATE TABLE expensetype(
+    ID SERIAL PRIMARY KEY,
+    name VARCHAR(40),
+    description TEXT
+);
+
+CREATE TABLE expenselist(
+    ID SERIAL PRIMARY KEY,
+    CONSTRAINT expensesID
+        FOREIGN KEY(ID)
+            REFERENCES expense(ID),
+    CONSTRAINT expenseTypeID
+        FOREIGN KEY(ID)
+            REFERENCES expensetype(ID),
+    paymentStatus bit
+);
