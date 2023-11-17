@@ -2,7 +2,7 @@ import { ThemeProvider } from "@mui/material";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
 import { produce } from "immer";
-import { useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import Box from "@mui/material/Box";
 import theme from "../components/Theme";
 import DosageCalculator from "../sub-pages/PedoDosageCalc";
@@ -13,69 +13,38 @@ import {
   RTX_SELECT,
   WORK_SELECT,
 } from "../components/Constant";
+import Certificates from "../sub-pages/Certificates";
+import RTXPage from "../sub-pages/RtxPage";
+import Consent from "../sub-pages/Consent";
+import WorkAuthorizationPage from "../sub-pages/WorkAuthPage";
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case CERTFICATE_SELECT:
-      state.selectRecords = CERTFICATE_SELECT;
-      return;
-    case WORK_SELECT:
-      state.selectRecords = WORK_SELECT;
-      return;
-    case DOSAGE_SELECT:
-      state.selectRecords = DOSAGE_SELECT;
-      return;
-    case RTX_SELECT:
-      state.selectRecords = RTX_SELECT;
-      return;
-    case CONSENT_SELECT:
-      state.selectRecords = CONSENT_SELECT;
-      return;
-    default:
-      throw new Error("unexpected action type" + action.type);
-  }
-};
+function DocumentPage({goto}) {  
 
-function DocumentPage() {
-  const [state, dispatch] = useReducer(produce(reducer), {
-    selectRecords: CERTFICATE_SELECT,
-  });
-
-  function handleSelect(event){
-    dispatch({ type: event });
+  const widthMapping = {
+    [CERTFICATE_SELECT]: "110%", 
+    [WORK_SELECT]: "134%",       
+    [DOSAGE_SELECT]: "204%",    
+    [RTX_SELECT]: "98%",       
+    [CONSENT_SELECT]: "98%"    
   };
 
+  const width = widthMapping[goto] || "100%";
+
   return (
-    <div className="mt-20">
-      <ThemeProvider theme={theme}>
-        <ButtonGroup
-          className={"bg-gray-200 border-solid border-2 border-black"}
-          variant="outlined"
-          aria-label="outlined button group"
-        >
-          <Button size="large" color="main_grey" onClick={() => handleSelect(CERTFICATE_SELECT)}>
-            Certificates
-          </Button>
-          <Button size="large" color="main_grey" onClick={() => handleSelect(WORK_SELECT)}>
-            Work Authorization
-          </Button>
-          <Button size="large" color="main_grey" onClick={() => handleSelect(DOSAGE_SELECT)}>
-            Pedo Dosage Calculator
-          </Button>
-          <Button size="large" color="main_grey" onClick={() => handleSelect(RTX_SELECT)}>
-            RTX
-          </Button>
-          <Button size="large" color="main_grey" onClick={() => handleSelect(CONSENT_SELECT)}>
-            Consent
-          </Button>
-        </ButtonGroup>
-      </ThemeProvider>
-      <Box className={"bg-gray-100 p-10 border-solid border-2 border-black"}>
-        {state.selectRecords === CERTFICATE_SELECT ? "Certificates" : ""}
-        {state.selectRecords === WORK_SELECT ? "Work Authorization" : ""}
-        {state.selectRecords === DOSAGE_SELECT ? <DosageCalculator /> : ""}
-        {state.selectRecords === RTX_SELECT ? "RTX" : ""}
-        {state.selectRecords === CONSENT_SELECT ? "Consent" : ""}
+    <div className="mt-10 w-[80%]" style={{position: "fixed"}}>
+      <Box sx={{
+      height: "80vh", 
+      overflow: 'auto',
+      border: 'none',
+      boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+      p: 2, 
+    }}
+    className={"bg-white"}>
+        {goto === CERTFICATE_SELECT ? <Certificates /> : ""}
+        {goto === WORK_SELECT ? <WorkAuthorizationPage /> : ""}
+        {goto === DOSAGE_SELECT ? <DosageCalculator /> : ""}
+        {goto === RTX_SELECT ? <RTXPage /> : ""}
+        {goto === CONSENT_SELECT ? <Consent /> : ""}
       </Box>
     </div>
   );

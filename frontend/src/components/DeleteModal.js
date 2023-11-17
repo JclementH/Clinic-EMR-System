@@ -1,9 +1,9 @@
 import { Box, Button, Modal } from "@mui/material";
-import { DELETE_ID } from "./Constant";
+import { DELETE_DATA } from "./Constant";
 
 function DeleteModal({ open, onClose, dispatch, id }) {
   const handleClick = () => {
-    dispatch({ type: DELETE_ID, payload: id });
+    dispatch({ type: DELETE_DATA, payload: id });
   };
 
   return (

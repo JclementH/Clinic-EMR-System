@@ -25,6 +25,7 @@ import {
   SET_EDIT,
   SET_ID,
   DELETE_ID,
+  SET_ROW,
 } from "../components/Constant";
 import DeleteModal from "../components/DeleteModal";
 
@@ -61,12 +62,16 @@ const reducer = (state, action) => {
       state.name = action.payload;
       return;
 
+    case SET_ROW:
+      state.rows.push(action.payload)
+      return;
+
     case COST:
       state.cost = action.payload;
       return;
 
     case CHANGE_DATE:
-      console.log("date: ", action.payload);
+
       state.date = action.payload;
       return;
 
@@ -118,6 +123,7 @@ const reducer = (state, action) => {
           state.datePaid
         ),
       ];
+
       return;
 
     case CLEAR_DATA:
@@ -180,7 +186,9 @@ const reducer = (state, action) => {
       return;
 
     case DELETE_ID:
-      const newRow = state.rows.filter((expense) => expense.id !== action.payload);
+      const newRow = state.rows.filter(
+        (expense) => expense.id !== action.payload
+      );
       state.rows = newRow;
       state.showExitModal = false;
       return;
@@ -201,6 +209,7 @@ function ExpensePage() {
     cost: null,
     date: null,
     status: false,
+    bitStatus: 0,
     amountPaid: null,
     datePaid: null,
     nameError: false,
@@ -210,12 +219,72 @@ function ExpensePage() {
     rows: [],
   });
 
+  const handlePullChanges = async () => {
+    const response = await fetch(
+      "http://25.30.166.184:4000/clinic/get/expense",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const data = await response.json();
+    const expenseName = data.expenseType;
+    const paymentStatus = data.expenselist;
+    const expense = data.expenses;
+
+    const mergedArray = expenseName.map((item1) => {
+      const matchingItem2 = paymentStatus.find(
+        (item2) => item2.id === item1.id
+      );
+      const matchingItem3 = expense.find((item3) => item3.id === item1.id);
+
+      // Create a new object by spreading the properties from the three arrays
+      return {
+        ...item1,
+        paymentstatus: matchingItem2 ? matchingItem2.paymentstatus : null,
+        cost: matchingItem3 ? matchingItem3.cost : null,
+        duedate: matchingItem3 ? matchingItem3.duedate : null,
+        paiddate: matchingItem3 ? matchingItem3.paiddate : null,
+        paidamount: matchingItem3 ? matchingItem3.paidamount : null,
+      };
+    });
+
+    // dispatch({type: SET_ROW, payload: mergedArray})
+  };
+
+  const handleAsyncChanges = async (event) => {
+    // dispatch({ type: PUSH_DATA, payload: event.target.value });
+
+    const response = await fetch(
+      "http://25.30.166.184:4000/clinic/post/expense",
+      {
+        method: "POST",
+        body: JSON.stringify(
+          createData(
+            state.id,
+            state.name,
+            state.cost,
+            state.date,
+            state.status === true ? 1 : 0,
+            state.status === true ? state.cost : state.amountPaid,
+            state.datePaid
+          )
+        ),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    dispatch({ type: CLEAR_DATA });
+  };
+
   const handleChange = (event, type) => {
     if (type === COST || type === AMOUNT_PAID) {
       dispatch({ type, payload: event.target.value.replace(/[^0-9]/g, "") });
-    } else if (type === PUSH_DATA) {
-      dispatch({ type, payload: event.target.value });
-      dispatch({ type: CLEAR_DATA });
     } else {
       dispatch({ type, payload: event.target.value });
     }
@@ -234,8 +303,6 @@ function ExpensePage() {
   }
 
   const handleDateChange = (date) => {
-    // console.log(dayjs(state.date));
-    // console.log("HandleDateChage date: " + date)
     dispatch({ type: CHANGE_DATE, payload: date });
   };
 
@@ -268,6 +335,7 @@ function ExpensePage() {
     <div>
       <div>
         <Button onClick={setModal}> Add </Button>
+        <Button onClick={handlePullChanges}> Refresh </Button>
         <ExpenseModal
           open={state.showModal}
           onClose={closeModal}
@@ -276,6 +344,7 @@ function ExpensePage() {
           handleDateChange={handleDateChange}
           handleDatePaidChange={handleDatePaidChange}
           editMode={state.editMode}
+          handleAC={handleAsyncChanges}
         />
         <DeleteModal
           open={state.showExitModal}

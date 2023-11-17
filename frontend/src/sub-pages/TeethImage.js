@@ -114,11 +114,9 @@ const reducer = (state, action) => {
       return;
     case CHANGE_TOP:
       state.modalTeeth.topTeeth = action.payload;
-      console.log("top =", state.modalTeeth.topTeeth);
       return;
     case CHANGE_BOT:
       state.modalTeeth.bottomTeeth = action.payload;
-      console.log("bot =", state.modalTeeth.bottomTeeth);
       return;
     case CHANGE_LEFT:
       state.modalTeeth.leftTeeth = action.payload;
@@ -156,21 +154,14 @@ function TeethImage() {
 
   const teethLayout = (teethGroup, width, small) => {
     return (
-      <div
-        className={
-          small
-            ? "flex items-center mb-10"
-            : "flex mx-auto items-center mb-10 ml-[10%]"
-        }
-        style={{ width }}
-      >
+      <div className="flex" style={{ marginLeft: width }}>
         {map(teethGroup, (teeth, index) => (
           <Fragment key={`qwe-${index}`}>
             <div>
-              <div className={small ? "ml-16 " : "ml-20"}>
+              <div className={small ? "ml-16 " : "ml-[100px]"}>
                 {teeth.teethNumber}
               </div>
-              <div className={small ? "pb-12" : "pb-14"}>
+              <div className={small ? "pb-[110px]" : "pb-[110px] ml-[20px]"}>
                 <TeethObject
                   topTeeth={teeth.topTeeth}
                   bottomTeeth={teeth.bottomTeeth}
@@ -190,23 +181,24 @@ function TeethImage() {
 
   return (
     <div>
-      <Box className={"bg-white w-[14rem] h-[20rem] absolute"}>
+      <Box className={"bg-gray-200 w-[14rem] h-[20rem] absolute"}>
         <p className="text-center"> Legend</p>
       </Box>
-
-      <div className="pl-[18%]">
-        {teethLayout(initialTeethState1, "65%", false)}
-        {teethLayout(initialTeethState2, "200%", true)}
-        {teethLayout(initialTeethState3, "200%", true)}
-        {teethLayout(initialTeethState4, "65%", false)}
-
+      <div className="pl-[220px] overflow-x-auto whitespace-nowrap">
+         <Box style={{overflowX: "auto", overflowY: "hidden", width: "90%", height: "700px", marginLeft: "5%"}}>
+        {teethLayout(initialTeethState1, "3%", false)}
+        {teethLayout(initialTeethState2, "0%", true)}
+        {teethLayout(initialTeethState3, "0%", true)}
+        {teethLayout(initialTeethState4, "3%", false)}
         <TeethModal
           show={state.showModal}
           handleClose={handleClose}
           teeth={state.modalTeeth}
           dispatch={dispatch}
         />
+        </Box>
       </div>
+     
     </div>
   );
 }
