@@ -5,8 +5,8 @@ const prm = require("./modules/prm");
 const misc = require("./modules/misc");
 const app = express();
 //declare host and port
-const host = "25.45.225.72";
-const port = 3501;
+const host = "localhost";
+const port = 3001;
 
 app.use(cors());
 app.use(express.json());
