@@ -2,20 +2,23 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "pdfkit": "^0.13.0",
     "pg": "^8.11.3"
   },
   "name": "backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "webserver.js",
   "devDependencies": {
     "nodemon": "^3.0.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx nodemon server.js"
+    "start": "concurrently \"npm run appserver\" \"npx nodemon webserver\"",
+    "webserver": "webserver.js",
+    "appserver": "appserver.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "John Clement Husain",
   "license": "ISC",
-  "description": ""
+  "description": "Package for servers' web and app"
 }

@@ -22,9 +22,11 @@ CREATE TABLE patientinformation(
 
 CREATE TABLE emergencyperson(
     ID SERIAL PRIMARY KEY,
-    CONSTRAINT patientID
-        FOREIGN KEY(ID) 
-            REFERENCES patientinformation(ID),
+    patientID INT,
+    CONSTRAINT fk_patient
+        FOREIGN KEY(patientID) 
+            REFERENCES patientinformation(ID)
+                ON DELETE CASCADE,
     nameLast VARCHAR(40),
     nameFirst VARCHAR(40),
     numberTelephone VARCHAR(10),
@@ -33,9 +35,11 @@ CREATE TABLE emergencyperson(
 
 CREATE TABLE parent(
     ID SERIAL PRIMARY KEY,
-    CONSTRAINT patientID
-        FOREIGN KEY(ID) 
-            REFERENCES patientinformation(ID),
+    patientID INT,
+    CONSTRAINT fk_patient
+        FOREIGN KEY(patientID) 
+            REFERENCES patientinformation(ID)
+                ON DELETE CASCADE,
     nameLast VARCHAR(40),
     nameFirst VARCHAR(40),
     numberTelephone VARCHAR(10),
@@ -50,8 +54,7 @@ CREATE TABLE dentistinformation(
     email VARCHAR(255),
     numberTelephone VARCHAR(10),
     numberMobile VARCHAR(10),
-    numberPRC VARCHAR(7),
-    occupation VARCHAR(255)
+    numberPRC VARCHAR(7)
 );
 
 CREATE TABLE assistantinformation(
@@ -74,9 +77,11 @@ CREATE TABLE thirdpartyinformation(
 
 CREATE TABLE directory(
     ID SERIAL PRIMARY KEY,
-    CONSTRAINT thirdPartyID
-        FOREIGN KEY(ID) 
+    thirdPartyID INT,
+    CONSTRAINT fk_thirdParty
+        FOREIGN KEY(thirdPartyID) 
             REFERENCES thirdpartyinformation(ID)
+                ON DELETE CASCADE
 );
 
 CREATE TABLE log(
@@ -87,307 +92,293 @@ CREATE TABLE log(
 
 CREATE TABLE dentistlogentry(
     ID SERIAL PRIMARY KEY,
-    CONSTRAINT dentistID
-        FOREIGN KEY(ID) 
-            REFERENCES dentistinformation(ID),
-    CONSTRAINT logID
-        FOREIGN KEY(ID) 
+    dentistID INT,
+    CONSTRAINT fk_dentist
+        FOREIGN KEY(dentistID) 
+            REFERENCES dentistinformation(ID)
+                ON DELETE CASCADE,
+    logID INT,
+    CONSTRAINT fk_log
+        FOREIGN KEY(logID) 
             REFERENCES log(ID)
+                ON DELETE CASCADE
 );
 
 CREATE TABLE assistantlogentry(
     ID SERIAL PRIMARY KEY,
-    CONSTRAINT assistantID
-        FOREIGN KEY(ID) 
-            REFERENCES assistantinformation(ID),
-    CONSTRAINT logID
-        FOREIGN KEY(ID) 
+    assistantID INT,
+    CONSTRAINT fk_assistant
+        FOREIGN KEY(assistantID) 
+            REFERENCES assistantinformation(ID)
+                ON DELETE CASCADE,
+    logID INT,
+    CONSTRAINT fk_log
+        FOREIGN KEY(logID) 
             REFERENCES log(ID)
+                ON DELETE CASCADE
 );
 
 CREATE TABLE thirdpartylogentry(
     ID SERIAL PRIMARY KEY,
-    CONSTRAINT thirdPartyID
-        FOREIGN KEY(ID) 
-            REFERENCES thirdpartyinformation(ID),
-    CONSTRAINT logID
-        FOREIGN KEY(ID) 
+    thirdPartyID INT,
+    CONSTRAINT fk_thirdParty
+        FOREIGN KEY(thirdPartyID) 
+            REFERENCES thirdpartyinformation(ID)
+                ON DELETE CASCADE,
+    logID INT,
+    CONSTRAINT fk_log
+        FOREIGN KEY(logID) 
             REFERENCES log(ID)
+                ON DELETE CASCADE
 );
 
 CREATE TABLE appointment(
     ID SERIAL PRIMARY KEY,
-    CONSTRAINT patientID
-        FOREIGN KEY(ID)
-            REFERENCES patientinformation(ID),
-    CONSTRAINT dentistID
-        FOREIGN KEY(ID)
-            REFERENCES dentistinformation(ID),
+    patientID INT,
+    CONSTRAINT fk_patient
+        FOREIGN KEY(patientID)
+            REFERENCES patientinformation(ID)
+                ON DELETE CASCADE,
+    dentistID INT,
+    CONSTRAINT fk_dentist
+        FOREIGN KEY(dentistID)
+            REFERENCES dentistinformation(ID)
+                ON DELETE CASCADE,
     appointmentDate DATE,
     timeStart TIMESTAMP,
     timeEnd TIMESTAMP
 );
 
-CREATE TABLE procedure(
-    ID SERIAL PRIMARY KEY,
-    name VARCHAR(40),
-    description TEXT,
-    baseCost DECIMAL
-);
-
 CREATE TABLE appointmentProcedure(
     ID SERIAL PRIMARY KEY,
-    CONSTRAINT appointmentID
-        FOREIGN KEY(ID)
-            REFERENCES appointment(ID),
-    CONSTRAINT procedureID
-        FOREIGN KEY(ID)
-            REFERENCES procedure(ID),
+    appointmentID INT,
+    CONSTRAINT fk_appointment
+        FOREIGN KEY(appointmentID)
+            REFERENCES appointment(ID)
+                ON DELETE CASCADE,
+    procedure TEXT,
     notes TEXT
 );
 
 CREATE TABLE appointmentHistory(
     ID SERIAL PRIMARY KEY,
-    CONSTRAINT patientID
-        FOREIGN KEY(ID)
-            REFERENCES patientinformation(ID),
-    CONSTRAINT appointmentID
-        FOREIGN KEY(ID)
-            REFERENCES appointment(ID),
-    status BIT
-);
-
-CREATE TABLE invoice(
-    ID SERIAL PRIMARY KEY,
-    CONSTRAINT patientID
-        FOREIGN KEY(ID)
-            REFERENCES patientinformation(ID),
-    CONSTRAINT dentistID
-        FOREIGN KEY(ID)
-            REFERENCES dentistinformation(ID),
-    feesProcedureTotal decimal,
-    feesLaboratory decimal,
-    discount decimal,
-    subTotal decimal,
-    feesDoctor decimal,
-    shareDoctor decimal,
-    shareClinic decimal,
-    notes text
-);
-
-CREATE TABLE billingHistory(
-    ID SERIAL PRIMARY KEY,
-    CONSTRAINT patientID
-        FOREIGN KEY(ID)
-            REFERENCES patientinformation(ID),
-    CONSTRAINT invoiceID
-        FOREIGN KEY(ID)
-            REFERENCES invoiceID(ID),
-    unpaid bit,
-    partial bit,
-    complete bit
-);
-
-CREATE TABLE invoiceProcedure(
-    ID SERIAL PRIMARY KEY,
-    CONSTRAINT invoiceID
-        FOREIGN KEY(ID)
-            REFERENCES invoiceID(ID),
-    CONSTRAINT procedureID
-        FOREIGN KEY(ID)
-            REFERENCES procedure(ID),
-    teethQuantity INTEGER,
-    fee DECIMAL
-);
-
-CREATE TABLE imagetype(
-    ID SERIAL PRIMARY KEY,
-    name VARCHAR(40),
-    description TEXT
+    patientID INT,
+    CONSTRAINT fk_patient
+        FOREIGN KEY(patientID)
+            REFERENCES patientinformation(ID)
+                ON DELETE CASCADE,
+    appointmentID INT,
+    CONSTRAINT fk_appointment
+        FOREIGN KEY(appointmentID)
+            REFERENCES appointment(ID)
+                ON DELETE CASCADE,
+    status BOOLEAN
 );
 
 CREATE TABLE image(
     ID SERIAL PRIMARY KEY,
-    CONSTRAINT patientID
-        FOREIGN KEY(ID)
-            REFERENCES patientinformation(ID),
-    CONSTRAINT imageTypeID
-        FOREIGN KEY(ID)
-            REFERENCES imagetype(ID),
+    patientID INT,
+    CONSTRAINT fk_patient
+        FOREIGN KEY(patientID)
+            REFERENCES patientinformation(ID)
+                ON DELETE CASCADE,
+    imageType TEXT,
     creationDate DATE,
     filePath VARCHAR(255)
 );
 
 CREATE TABLE imageChronology(
     ID SERIAL PRIMARY KEY,
-    CONSTRAINT patientID
-        FOREIGN KEY(ID)
-            REFERENCES patientinformation(ID),
-    CONSTRAINT imageID
-        FOREIGN KEY(ID)
-            REFERENCES image(ID),
+    patientID INT,
+    CONSTRAINT fk_patient
+        FOREIGN KEY(patientID)
+            REFERENCES patientinformation(ID)
+                ON DELETE CASCADE,
+    imageID INT,
+    CONSTRAINT fk_image
+        FOREIGN KEY(imageID)
+            REFERENCES image(ID)
+                ON DELETE CASCADE,
     date DATE,
     notes TEXT
 );
 
-CREATE TABLE toothType(
-    ID SERIAL PRIMARY KEY,
-    name VARCHAR(40),
-    description TEXT
-);
-
-CREATE TABLE crownType(
-    ID SERIAL PRIMARY KEY,
-    name VARCHAR(40),
-    description TEXT
-);
-
-CREATE TABLE layType(
-    ID SERIAL PRIMARY KEY,
-    name VARCHAR(40),
-    description TEXT
-);
-
 CREATE TABLE dentalChart(
     ID SERIAL PRIMARY KEY,
-    CONSTRAINT patientID
-        FOREIGN KEY(ID)
-            REFERENCES patientinformation(ID),
-    CONSTRAINT dentistID
-        FOREIGN KEY(ID)
-            REFERENCES dentistinformation(ID),
+    patientID INT,
+    CONSTRAINT fk_patient
+        FOREIGN KEY(patientID)
+            REFERENCES patientinformation(ID)
+                ON DELETE CASCADE,
+    dentistID INT,
+    CONSTRAINT fk_dentist
+        FOREIGN KEY(dentistID)
+            REFERENCES dentistinformation(ID)
+                ON DELETE CASCADE,
     date DATE,
     note TEXT
 );
 
 CREATE TABLE dentalChartTooth(
     ID SERIAL PRIMARY KEY,
-    CONSTRAINT dentalChartID
-        FOREIGN KEY(ID)
-            REFERENCES dentalChart(ID),
-    CONSTRAINT toothTypeID
-        FOREIGN KEY(ID)
-            REFERENCES toothType(ID),
-    CONSTRAINT crownTypeID
-        FOREIGN KEY(ID)
-            REFERENCES crownType(ID),
-    CONSTRAINT layTypeID
-        FOREIGN KEY(ID)
-            REFERENCES layType(ID),
-    number INTEGER,
-    status BIT(5),
-    caries BIT(5),
-    composite BIT(5),
+    dentalChartID INT,
+    CONSTRAINT fk_dentalchart
+        FOREIGN KEY(dentalChartID)
+            REFERENCES dentalChart(ID)
+                ON DELETE CASCADE,
+    teethNumber DECIMAL(2),
+    statusBits BIT(3),
+    layCrownTypeBits BIT(3),
+    lay BIT(5),
+    recurringCarries BIT(5),
     amalgam BIT(5),
-    reccurentCaries BIT(5),
-    lay BIT(5)
+    composite BIT(5),
+    carries BIT(5)
 );
 
 CREATE TABLE dentalChartHistory(
     ID SERIAL PRIMARY KEY,
-    CONSTRAINT patientID
-        FOREIGN KEY(ID)
-            REFERENCES patientinformation(ID),
-    CONSTRAINT dentalChartID
-        FOREIGN KEY(ID)
+    patientID INT,
+    CONSTRAINT fk_patient
+        FOREIGN KEY(patientID)
+            REFERENCES patientinformation(ID)
+                ON DELETE CASCADE,
+    dentalChartID INT,
+    CONSTRAINT fk_dentalchart
+        FOREIGN KEY(dentalChartID)
             REFERENCES dentalChart(ID)
+                ON DELETE CASCADE,
     date DATE,
     notes TEXT
 );
 
 CREATE TABLE medicalHistory(
     ID SERIAL PRIMARY KEY,
-    CONSTRAINT patientID
-        FOREIGN KEY(ID)
-            REFERENCES patientinformation(ID),
+    patientID INT,
+    CONSTRAINT fk_patient
+        FOREIGN KEY(patientID)
+            REFERENCES patientinformation(ID)
+                ON DELETE CASCADE,
     date DATE,
     filePath VARCHAR(255)
-);
-
-CREATE TABLE formType(
-    ID SERIAL PRIMARY KEY,
-    name NAME,
-    description TEXT
 );
 
 CREATE TABLE form(
     ID SERIAL PRIMARY KEY,
-    CONSTRAINT patientID
-        FOREIGN KEY(ID)
-            REFERENCES patientinformation(ID),
-    CONSTRAINT dentistID
-        FOREIGN KEY(ID)
-            REFERENCES dentistinformation(ID),
-    CONSTRAINT formTypeID
-        FOREIGN KEY(ID)
-            REFERENCES formType(ID),
+    patientID INT,
+    CONSTRAINT fk_patient
+        FOREIGN KEY(patientID)
+            REFERENCES patientinformation(ID)
+                ON DELETE CASCADE,
+    dentistID INT,
+    CONSTRAINT fk_dentist
+        FOREIGN KEY(dentistID)
+            REFERENCES dentistinformation(ID)
+                ON DELETE CASCADE,
+    formType VARCHAR(40),
     date DATE,
     filePath VARCHAR(255)
 );
 
-CREATE TABLE medicine(
-    ID SERIAL PRIMARY KEY,
-    name NAME,
-    description TEXT,
-    dosage VARCHAR(20),
-    dosageChild VARCHAR(20)
-);
-
 CREATE TABLE prescription(
     ID SERIAL PRIMARY KEY,
-    CONSTRAINT patientID
-        FOREIGN KEY(ID)
-            REFERENCES patientinformation(ID),
-    CONSTRAINT dentistID
-        FOREIGN KEY(ID)
-            REFERENCES dentistinformation(ID),
+    patientID INT,
+    CONSTRAINT fk_patient
+        FOREIGN KEY(patientID)
+            REFERENCES patientinformation(ID)
+                ON DELETE CASCADE,
+    dentistID INT,
+    CONSTRAINT fk_dentist
+        FOREIGN KEY(dentistID)
+            REFERENCES dentistinformation(ID)
+                ON DELETE CASCADE,
     date DATE
 );
 
 CREATE TABLE medication(
     ID SERIAL PRIMARY KEY,
-    CONSTRAINT prescriptionID
-        FOREIGN KEY(ID)
-            REFERENCES prescription(ID),
-    CONSTRAINT medicineID
-        FOREIGN KEY(ID)
-            REFERENCES medicine(ID),
+    prescriptionID INT,
+    CONSTRAINT fk_prescription
+        FOREIGN KEY(prescriptionID)
+            REFERENCES prescription(ID)
+                ON DELETE CASCADE,
+    medicine VARCHAR(40),
     quantity INTEGER,
     signetur TEXT
 );
 
 CREATE TABLE prescriptionHistory(
     ID SERIAL PRIMARY KEY,
-    CONSTRAINT patientID
-        FOREIGN KEY(ID)
-            REFERENCES patientinformation(ID),
-    CONSTRAINT prescriptionID
-        FOREIGN KEY(ID)
-            REFERENCES prescription(ID),
+    patientID INT,
+    CONSTRAINT fk_patient
+        FOREIGN KEY(patientID)
+            REFERENCES patientinformation(ID)
+                ON DELETE CASCADE,
+    prescriptionID INT,
+    CONSTRAINT fk_prescription
+        FOREIGN KEY(prescriptionID)
+            REFERENCES prescription(ID)
+                ON DELETE CASCADE,
     date DATE
 );
 
-CREATE TABLE expenses(
+CREATE TABLE expense(
     ID SERIAL PRIMARY KEY,
-    cost DECIMAL,
-    dueDate DATE,
-    paidDate DATE,
-    paidAmount DECIMAL
+    item VARCHAR(40),
+    quantity DECIMAL,
+    basecost DECIMAL,
+    expense DECIMAL,
+    isDeleted BOOLEAN DEFAULT false
 );
 
-CREATE TABLE expensetype(
+CREATE TABLE downpaymentexpenses(
     ID SERIAL PRIMARY KEY,
-    name VARCHAR(40),
-    description TEXT
+    expenseid INT,
+    CONSTRAINT fk_expense
+        FOREIGN KEY(expenseid)
+            REFERENCES expense(id)
 );
 
-CREATE TABLE expenselist(
+CREATE TABLE billexpenses(
     ID SERIAL PRIMARY KEY,
-    CONSTRAINT expensesID
-        FOREIGN KEY(ID)
-            REFERENCES expense(ID),
-    CONSTRAINT expenseTypeID
-        FOREIGN KEY(ID)
-            REFERENCES expensetype(ID),
-    paymentStatus bit
+    expenseid INT,
+    CONSTRAINT fk_expense
+        FOREIGN KEY(expenseid)
+            REFERENCES expense(id)
+);
+
+CREATE TABLE equipmentexpenses(
+    ID SERIAL PRIMARY KEY,
+    expenseid INT,
+    CONSTRAINT fk_expense
+        FOREIGN KEY(expenseid)
+            REFERENCES expense(id)
+);
+
+CREATE TABLE otherexpenses(
+    ID SERIAL PRIMARY KEY,
+    expenseid INT,
+    CONSTRAINT fk_expense
+        FOREIGN KEY(expenseid)
+            REFERENCES expense(id)
+);
+
+CREATE TABLE invoice(
+    ID SERIAL PRIMARY KEY,
+    patientid INT,
+    CONSTRAINT fk_patient
+        FOREIGN KEY(patientid)
+            REFERENCES patientinformation(id),
+    total DECIMAL
+);
+
+CREATE TABLE procedure(
+    ID SERIAL PRIMARY KEY,
+    invoiceid INT,
+    CONSTRAINT fk_invoice
+        FOREIGN KEY(invoiceid)
+            REFERENCES invoice(id),
+    procedureName VARCHAR(40),
+    description TEXT,
+    cost DECIMAL
 );
