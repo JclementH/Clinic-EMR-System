@@ -2,13 +2,8 @@
 const express = require("express");
 const cors = require("cors");
 const app = require("./appserver");
+const { LOCALHOST, APPSERVERPORT, WEBSERVERPORT } = require("./constant");
 const web = express();
-//declare host and port
-const host = "25.45.225.72";
-const port = 3500;
-//declare app host and app port;
-const apphost = "25.45.225.72";
-const appport = 3501;
 
 web.use(cors());
 web.use(express.json());
@@ -29,7 +24,7 @@ web.post('/web/patient/', async (req, res) => {
 
     try {
         response = await fetch(
-            `http://${apphost}:${appport}/app/patient/?patientid=${patientid}&type=${type}&dentistid=${dentistid}&formtype=${formtype}`, {
+            `http://${LOCALHOST}:${APPSERVERPORT}/app/patient/?patientid=${patientid}&type=${type}&dentistid=${dentistid}&formtype=${formtype}`, {
                 method: 'POST',
                 headers: { 'Content-Type' : 'application/json'},
                 body: JSON.stringify(data)
@@ -57,7 +52,7 @@ web.get('/web/patient', async (req, res) => {
 
     try {
         response = await fetch(
-            `http://${apphost}:${appport}/app/patient/?patientid=${patientid}&type=${type}&dentistid=${dentistid}&formtype=${formtype}&date=${date}`, {
+            `http://${LOCALHOST}:${APPSERVERPORT}/app/patient/?patientid=${patientid}&type=${type}&dentistid=${dentistid}&formtype=${formtype}&date=${date}`, {
                 method: 'GET',
                 headers: { 'Content-Type' : 'application/json'},
             }
@@ -86,7 +81,7 @@ web.put('/web/patient', async (req, res) => {
 
     try {
         response = await fetch(
-            `http://${apphost}:${appport}/app/patient/?patientid=${patientid}&type=${type}&dentistid=${dentistid}&formtype=${formtype}&date=${date}`, {
+            `http://${LOCALHOST}:${APPSERVERPORT}/app/patient/?patientid=${patientid}&type=${type}&dentistid=${dentistid}&formtype=${formtype}&date=${date}`, {
                 method: 'PUT',
                 headers: { 'Content-Type' : 'application/json'},
                 body: JSON.stringify(data)
@@ -98,6 +93,6 @@ web.put('/web/patient', async (req, res) => {
     }
 });
 
-web.listen(port, host, () => {
-    console.log("server has started on port " + port);
+web.listen(WEBSERVERPORT, LOCALHOST, () => {
+    console.log("server has started on port " + WEBSERVERPORT);
 });

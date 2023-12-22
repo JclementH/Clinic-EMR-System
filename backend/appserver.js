@@ -3,10 +3,8 @@ const express = require("express");
 const cors = require("cors");
 const prm = require("./modules/prm");
 const misc = require("./modules/misc");
+const { LOCALHOST, APPSERVERPORT } = require("./constant");
 const app = express();
-//declare host and port
-const host = "25.45.225.72";
-const port = 3501;
 
 app.use(cors());
 app.use(express.json());
@@ -111,6 +109,6 @@ app.put('/app/patient', async (req, res) => {
     }
 });
 
-app.listen(port, host, () => {
-    console.log("server has started on port " + port);
+app.listen(APPSERVERPORT, LOCALHOST, () => {
+    console.log("server has started on port " + APPSERVERPORT);
 });
