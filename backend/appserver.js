@@ -3,8 +3,9 @@ const express = require("express");
 const cors = require("cors");
 const prm = require("./modules/prm");
 const misc = require("./modules/misc");
-const { LOCALHOST, APPSERVERPORT } = require("./constant");
 const app = express();
+const LOCALHOST = "localhost"
+const APPSERVERPORT = "3501"
 
 app.use(cors());
 app.use(express.json());

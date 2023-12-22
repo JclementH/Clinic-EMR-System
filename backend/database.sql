@@ -1,6 +1,7 @@
 CREATE DATABASE clinic;
 
 \c clinic
+\dt 
 
 CREATE TABLE patientinformation(
     ID SERIAL PRIMARY KEY,

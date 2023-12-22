@@ -2,8 +2,10 @@
 const express = require("express");
 const cors = require("cors");
 const app = require("./appserver");
-const { LOCALHOST, APPSERVERPORT, WEBSERVERPORT } = require("./constant");
 const web = express();
+const LOCALHOST = "localhost"
+const APPSERVERPORT = "3501"
+const WEBSERVERPORT = "3500"
 
 web.use(cors());
 web.use(express.json());
