@@ -2,10 +2,12 @@
 const express = require("express");
 const cors = require("cors");
 const app = require("./appserver");
+const fetch = require("node-fetch");
 const web = express();
 const LOCALHOST = "localhost"
 const APPSERVERPORT = "3501"
 const WEBSERVERPORT = "3500"
+const secretKey = 'key-key'; 
 
 web.use(cors());
 web.use(express.json());
@@ -37,6 +39,15 @@ web.post('/web/patient/', async (req, res) => {
         console.log('Error at webserver!\n' + error);
     }
 });
+
+web.post('/login', (req, res) => {
+    const userId = 123; // Replace with your user's actual ID
+    const token = jwt.sign({ id: userId }, secretKey, {
+      expiresIn: 86400, // Token expires in 24 hours
+    });
+  
+    res.json({ token });
+  });
 
 web.get('/web/patient', async (req, res) => {
     let response;

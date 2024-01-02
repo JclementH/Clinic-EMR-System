@@ -1,7 +1,9 @@
 CREATE DATABASE clinic;
 
+psql -U postgres -W
 \c clinic
 \dt 
+SELECT * FROM patientinformation;
 
 CREATE TABLE patientinformation(
     ID SERIAL PRIMARY KEY,
