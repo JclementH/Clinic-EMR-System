@@ -264,6 +264,26 @@ const prm = {
 
         return Object.assign(information.rows);
     },
+    getDentistInformation: async (query) => {
+        let information;
+
+        if (query.dentistid) {
+            information = await pool.query(
+                `SELECT * FROM dentistinformation WHERE id=${query.dentistid};`
+            );
+        } else if (query.type === 'login') {
+            information = await pool.query(
+                `SELECT id, namefirst, namemiddle, namelast FROM dentistinformation WHERE email = $1 AND password = $2;`, [query.email, query.password]
+            )
+        } else {
+            information = await pool.query(
+                `SELECT * FROM dentistinformation;`
+            );
+        }
+
+        return Object.assign(information.rows);
+    },
+    
     getEmergencyPerson: async (query) => {
         let emergencyperson;
 
