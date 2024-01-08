@@ -75,16 +75,73 @@ web.get("/web/patient", async (req, res) => {
   let dentistid = req.query.dentistid;
   let formtype = req.query.formtype;
   let date = req.query.date;
+  let uuid = req.query.uuid;
 
   if (patientid === undefined) patientid = "";
   if (type === undefined) type = "";
   if (dentistid === undefined) dentistid = "";
   if (formtype === undefined) formtype = "";
   if (date === undefined) date = "";
+  if (uuid === undefined) uuid = "";
 
   try {
     response = await fetch(
-      `http://${LOCALHOST}:${APPSERVERPORT}/app/patient/?patientid=${patientid}&type=${type}&dentistid=${dentistid}&formtype=${formtype}&date=${date}`,
+      `http://${LOCALHOST}:${APPSERVERPORT}/app/patient/?patientid=${patientid}&type=${type}&dentistid=${dentistid}&formtype=${formtype}&date=${date}&uuid=${uuid}`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    res.json(await response.json());
+  } catch (error) {
+    console.log("Error at webserver!\n" + error);
+  }
+});
+
+web.put("/web/accounting", async (req, res) => {
+  let response;
+  let patientid = req.query.patientid;
+  let type = req.query.type;
+  let name = req.query.name
+  let quantity = req.query.quantity
+  let unitcost = req.query.unitcost
+  let expense = req.query.expense
+  let expensetype = req.query.expensetype
+
+  if (patientid === undefined) patientid = "";
+  if (type === undefined) type = "";
+  if (name === undefined) name = "";
+  if (quantity === undefined) quantity = "";
+  if (unitcost === undefined) unitcost = "";
+  if (expense === undefined) expense = "";
+  if (expensetype === undefined) expensetype = "";
+
+  console.log(expense)
+  try {
+    response = await fetch(
+      `http://${LOCALHOST}:${APPSERVERPORT}/app/accounting/?id=${patientid}&type=${type}&name=${name}&quantity=${quantity}&unitcost=${unitcost}&expense=${expense}&expensetype=${expensetype}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    res.json(await response.json());
+  } catch (error) {
+    console.log("Error at webserver!\n" + error);
+  }
+});
+
+web.get("/web/accounting", async (req, res) => {
+  let response;
+  let type = req.query.type;
+  let id = req.query.id;
+
+  if (type === undefined) type = "";
+  if (id === undefined) id = "";
+
+  try {
+    response = await fetch(
+      `http://${LOCALHOST}:${APPSERVERPORT}/app/accounting/?type=${type}&id=${id}`,
       {
         method: "GET",
         headers: { "Content-Type": "application/json" },

@@ -92,6 +92,34 @@ app.get("/app/patient", async (req, res) => {
   }
 });
 
+app.get("/app/accounting", async (req, res) => {
+  try {
+    switch (req.query.type) {
+      case "getexpense":
+        res.send(await prm.getExpense(req.query));
+        break;
+      default:
+        res.send({ error: "no type or type does not exist!" });
+    }
+  } catch (error) {
+    console.log("Error at appserver!\n" + error);
+  }
+});
+
+app.put("/app/accounting", async (req, res) => {
+  try {
+    switch (req.query.type) {
+      case "updateexpense":
+        res.send(await prm.updateExpense(req.query));
+        break;
+      default:
+        res.send({ error: "no type or type does not exist!" });
+    }
+  } catch (error) {
+    console.log("Error at appserver!\n" + error);
+  }
+});
+
 app.get("/app/dentist", async (req, res) => {
   try {
     switch (req.query.type) {
