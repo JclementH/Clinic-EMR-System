@@ -36,7 +36,7 @@ web.post("/web/patient/", async (req, res) => {
         body: JSON.stringify(data),
       }
     );
-    res.json(await response.json());
+    res.json(await response);
   } catch (error) {
     console.log("Error at webserver!\n" + error);
   }
@@ -100,32 +100,59 @@ web.get("/web/patient", async (req, res) => {
 
 web.put("/web/accounting", async (req, res) => {
   let response;
-  let patientid = req.query.patientid;
-  let type = req.query.type;
-  let name = req.query.name
-  let quantity = req.query.quantity
-  let unitcost = req.query.unitcost
-  let expense = req.query.expense
-  let expensetype = req.query.expensetype
+  let type = req.query.type || "";
 
-  if (patientid === undefined) patientid = "";
-  if (type === undefined) type = "";
-  if (name === undefined) name = "";
-  if (quantity === undefined) quantity = "";
-  if (unitcost === undefined) unitcost = "";
-  if (expense === undefined) expense = "";
-  if (expensetype === undefined) expensetype = "";
+  const data = req.body;
 
-  console.log(expense)
   try {
     response = await fetch(
-      `http://${LOCALHOST}:${APPSERVERPORT}/app/accounting/?id=${patientid}&type=${type}&name=${name}&quantity=${quantity}&unitcost=${unitcost}&expense=${expense}&expensetype=${expensetype}`,
+      `http://${LOCALHOST}:${APPSERVERPORT}/app/accounting/?type=${type}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
       }
     );
     res.json(await response.json());
+  } catch (error) {
+    console.log("Error at webserver!\n" + error);
+  }
+});
+
+web.post("/web/accounting", async (req, res) => {
+  let response;
+  let type = req.query.type || "";
+
+  const data = req.body;
+  try {
+    response = await fetch(
+      `http://${LOCALHOST}:${APPSERVERPORT}/app/accounting/?type=${type}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      }
+    );
+    res.json(await response);
+  } catch (error) {
+    console.log("Error at webserver!\n" + error);
+  }
+});
+
+web.delete("/web/accounting", async (req, res) => {
+  let response;
+  let patientid = req.query.patientid || "";
+  let type = req.query.type || "";
+
+  try {
+    response = await fetch(
+      `http://${LOCALHOST}:${APPSERVERPORT}/app/accounting/?type=${type}&id=${patientid}`,
+      {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    res.json(await response);
   } catch (error) {
     console.log("Error at webserver!\n" + error);
   }
@@ -211,6 +238,25 @@ web.put("/web/patient", async (req, res) => {
     console.log("Error at webserver!\n" + error);
   }
 });
+
+web.get("/web/teethimage", async (req, res) => {
+  let response;
+  let uuid = req.query.uuid || "";
+
+  try {
+    response = await fetch(
+      `http://${LOCALHOST}:${APPSERVERPORT}/app/teethimage/?uuid=${uuid}`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    res.json(await response.json());
+  } catch (error) {
+    console.log("Error at webserver!\n" + error);
+  }
+});
+
 
 web.listen(WEBSERVERPORT, LOCALHOST, () => {
   console.log("server has started on port " + WEBSERVERPORT);

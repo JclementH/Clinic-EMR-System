@@ -98,6 +98,43 @@ app.get("/app/accounting", async (req, res) => {
       case "getexpense":
         res.send(await prm.getExpense(req.query));
         break;
+        case "getbill":
+        res.send(await prm.getBill(req.query));
+        break;
+      default:
+        res.send({ error: "no type or type does not exist!" });
+    }
+  } catch (error) {
+    console.log("Error at appserver!\n" + error);
+  }
+});
+
+app.post("/app/accounting", async (req, res) => {
+  try {
+    switch (req.query.type) {
+      case "addexpense":
+        res.send(await prm.postExpense(req.query, req.body));
+        break;
+        case "addbills":
+          res.send(await prm.postBills(req.query, req.body));
+          break;
+      default:
+        res.send({ error: "no type or type does not exist!" });
+    }
+  } catch (error) {
+    console.log("Error at appserver!\n" + error);
+  }
+});
+
+app.delete("/app/accounting", async (req, res) => {
+  try {
+    switch (req.query.type) {
+      case "removeexpense":
+        res.send(await prm.deleteExpense(req.query));
+        break;
+        case "removebill":
+          res.send(await prm.deleteBill(req.query));
+          break;
       default:
         res.send({ error: "no type or type does not exist!" });
     }
@@ -110,8 +147,11 @@ app.put("/app/accounting", async (req, res) => {
   try {
     switch (req.query.type) {
       case "updateexpense":
-        res.send(await prm.updateExpense(req.query));
+        res.send(await prm.updateExpense(req.query, req.body));
         break;
+        case "updatebill":
+          res.send(await prm.updateBill(req.query, req.body));
+          break;
       default:
         res.send({ error: "no type or type does not exist!" });
     }
@@ -177,6 +217,14 @@ app.put("/app/patient", async (req, res) => {
       default:
         res.send({ error: "no type or type does not exist!" });
     }
+  } catch (error) {
+    console.log("Error at appserver!\n" + error);
+  }
+});
+
+app.get("/app/teethimage", async (req, res) => {
+  try {
+    res.send(await prm.getTeethImage(req.query));
   } catch (error) {
     console.log("Error at appserver!\n" + error);
   }

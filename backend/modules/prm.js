@@ -291,21 +291,90 @@ const prm = {
   },
   getExpense: async (query) => {
     let information;
-
     information = await pool.query(`SELECT * FROM expense;`);
+
     return Object.assign(information.rows);
   },
-  updateExpense: async (query) => {
+  getBill: async (query) => {
+    let information;
+    information = await pool.query(`SELECT * FROM bills;`);
+
+    return Object.assign(information.rows);
+  },
+  postExpense: async (query, body) => {
+    let information;
+
+    information = await pool.query(
+      `INSERT INTO expense (item, quantity, basecost, expense, isdeleted, expensetype) VALUES ($1, $2, $3, $4, false, $5)`,
+      [
+        body.name,
+        body.quantity,
+        body.unitcost,
+        body.expense,
+        body.expensetype,
+      ]
+    );
+    return Object.assign(information.rows);
+  },
+  postBills: async (query, body) => {
+    let information;
+    console.log(body)
+    information = await pool.query(
+      `INSERT INTO bills (amountdue, amountafterdue, duedate, datepaid, amountpaid, item) VALUES ($1, $2, $3, $4, $5, $6)`,
+      [
+        body.amountdue,
+        body.amountafterdue,
+        body.duedate,
+        body.datepaid,
+        body.amountpaid,
+        body.name,
+      ]
+    );
+    return Object.assign(information.rows);
+  },
+  deleteExpense: async (query) => {
+    let information;
+
+    information = await pool.query(
+      `DELETE FROM expense where id = $1;`, [query.id]
+    );
+    return Object.assign(information.rows);
+  },
+  deleteBill: async (query) => {
+    let information;
+
+    information = await pool.query(
+      `DELETE FROM bills where id = $1;`, [query.id]
+    );
+    return Object.assign(information.rows);
+  },
+  updateExpense: async (query, body) => {
     let information;
     information = await pool.query(
       `UPDATE expense SET item = $1, quantity = $2, basecost = $3, expense = $4, expensetype = $5 WHERE id = $6;`,
       [
-        query.name,
-        query.quantity,
-        query.unitcost,
-        query.expense,
-        query.expensetype,
-        query.id,
+        body.name,
+        body.quantity,
+        body.unitcost,
+        body.expense,
+        body.expensetype,
+        body.id,
+      ]
+    );
+    return Object.assign(information.rows);
+  },
+  updateBill: async (query, body) => {
+    let information;
+    information = await pool.query(
+      `UPDATE bills SET item = $1, amountdue = $2, amountafterdue = $3, duedate = $4, datepaid = $5, amountpaid = $6 WHERE id = $7;`,
+      [
+        body.name,
+        body.amountdue,
+        body.amountafterdue,
+        body.duedate,
+        body.datepaid,
+        body.amountpaid,
+        body.id,
       ]
     );
     return Object.assign(information.rows);
@@ -734,6 +803,12 @@ const prm = {
       return { error: "missing 'patientid' query in URL" };
     }
     return { status: "deleted dentalchart" };
+  },
+  getTeethImage: async (query) => {
+    let information;
+    console.log(query)
+    information = await pool.query(`SELECT * FROM dentalchartimages WHERE uuid = '${query.uuid}';`);
+    return Object.assign(information.rows);
   },
 };
 
